@@ -89,7 +89,9 @@ To get a channel ID:
 2. Right-click on the channel you want to send messages to
 3. Click "Copy ID"
 
-## Requirements
+## Installation
+
+Install the required Python package:
 
 ```bash
 pip install requests
