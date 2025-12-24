@@ -1,6 +1,6 @@
-# Discord Message Bot
+# Get Discord Token From Browser
 
-A simple Python script to send messages to Discord channels using your Discord token.
+Guide on how to get your Discord token from the browser console and a Python example for sending messages.
 
 ## How to Get Your Discord Token
 
