@@ -97,10 +97,94 @@ Install the required Python package:
 pip install requests
 ```
 
+## Discord Webhook: Order Embed Example
+
+Here's an example of how to send a styled embed message (like order notifications) using Discord webhooks:
+
+```python
+import requests
+import json
+from datetime import datetime
+
+def send_order_webhook(webhook_url, order_data):
+    """Send a Discord webhook message with an order embed."""
+    
+    embed = {
+        "title": "✅ New Completed Order",
+        "color": 0xFF69B4,  # Pink color
+        "fields": [
+            {
+                "name": "👤 User",
+                "value": f"🔒 {order_data.get('user', 'Hidden')}",
+                "inline": True
+            },
+            {
+                "name": "💳 Payment Method",
+                "value": f"💳 {order_data.get('payment_method', 'Credit/Debit Card')}",
+                "inline": True
+            },
+            {
+                "name": "🪙 Robux Purchased",
+                "value": order_data.get('robux_amount', '0 Robux'),
+                "inline": True
+            },
+            {
+                "name": "💰 USD Spent",
+                "value": order_data.get('usd_amount', '$0.00'),
+                "inline": True
+            },
+            {
+                "name": "⭐ Rating",
+                "value": "⭐⭐⭐⭐⭐ " + f"({order_data.get('rating', '5/5')})",
+                "inline": True
+            },
+            {
+                "name": "📄 Order ID",
+                "value": order_data.get('order_id', 'N/A'),
+                "inline": True
+            }
+        ],
+        "thumbnail": {
+            "url": order_data.get('thumbnail_url', '')
+        },
+        "footer": {
+            "text": f"Powered by Robux World • discord.gg/robuxworld • {datetime.utcnow().strftime('%B %d, %Y at %H:%M UTC')}"
+        },
+        "timestamp": datetime.utcnow().isoformat()
+    }
+    
+    payload = {"embeds": [embed]}
+    
+    response = requests.post(webhook_url, json=payload)
+    return response.status_code == 204
+
+# Usage
+WEBHOOK_URL = "YOUR_WEBHOOK_URL_HERE"
+order_data = {
+    "user": "Hidden",
+    "payment_method": "Giftcards",
+    "robux_amount": "30,000 Robux",
+    "usd_amount": "$30.00",
+    "rating": "5/5",
+    "order_id": "0094825791242530142",
+    "thumbnail_url": "https://i.imgur.com/your-logo.png"
+}
+
+send_order_webhook(WEBHOOK_URL, order_data)
+```
+
+### Getting a Webhook URL
+
+1. Go to your Discord server
+2. Go to Server Settings > Integrations > Webhooks
+3. Click "New Webhook"
+4. Configure the webhook (name, channel, etc.)
+5. Copy the webhook URL
+
 ## Important Notes
 
 ⚠️ **Warning**: Using your Discord token to automate messages violates Discord's Terms of Service. Use at your own risk. Discord may ban your account if detected.
 
-- Never share your Discord token publicly
-- Keep your token secure
+- Never share your Discord token or webhook URL publicly
+- Keep your tokens and webhooks secure
 - This is for educational purposes only
